@@ -1,0 +1,100 @@
+<!--pages/logs/logs.wxml-->
+<view class="container">
+  <view class="log-head" bindtap="titleClick">
+    <view class="{{_indexTitle==1?'cur':''}}" data-index="1">树洞</view>
+    <view class="{{_indexTitle==2?'cur':''}}" data-index="2">发现</view>
+    <view class="{{_indexTitle==3?'cur':''}}" data-index="3">精选</view>
+  </view>
+  <view class="log-body {{_indexTitle!=1?'none':''}}" data-bodyIndex='1'>
+    <block wx:for="{{article}}" wx:key='articleid'>
+      <view class='message' data-index='{{index}}'>
+        <view class='message-author'>
+          <image src="{{item.headimg}}"></image>
+          <text>{{item.nickname}}</text>
+        </view>
+        <view class="message-info">
+          <text>{{item.contents}}</text>
+        </view>
+        <view class="tips">
+          <view class="split"></view>
+          <view class="lookNum">
+            <text class="likeNum">0喜欢</text>
+            <text class="commentNum">0评论</text>
+          </view>
+          <view class="message-icon">
+            <image class="like" src="{{likeUrl}}" bindtap="likeClick"></image>
+            <image class="comment" src="/image/chat.png"></image>
+          </view>
+        </view>
+      </view>
+    </block>
+    
+    <!-- <view class="message">
+      <view class="message-author">
+        <image src="/image/icecream-01.png"></image>
+        <text>刘翾</text>
+      </view>
+      <view class="message-info">
+        <text>卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居</text>
+      </view>
+      <view class="tips">
+        <view class="split"></view>
+        <view class="lookNum">
+          <text class="likeNum">{{likeNum}}喜欢</text>
+          <text class="commentNum">0评论</text>
+        </view>
+        <view class="message-icon">
+          <image class="like" src="{{likeUrl}}" bindtap="likeClick"></image>
+          <image class="comment" src="/image/chat.png"></image>
+        </view>
+      </view>
+    </view> -->
+  </view>
+  <view class="log-body {{_indexTitle!=2?'none':''}}" data-bodyIndex='2'>
+    <view class="message">
+      <view class="message-author">
+        <image src="/image/icecream-01.png"></image>
+        <text>刘翾</text>
+      </view>
+      <view class="message-info">
+        <text>这里是发现</text>
+      </view>
+      <view class="tips">
+        <view class="split"></view>
+        <view class="lookNum">
+          <text class="likeNum">{{likeNum}}喜欢</text>
+          <text class="commentNum">0评论</text>
+        </view>
+        <view class="message-icon">
+          <image class="like" src="{{likeUrl}}" bindtap="likeClick"></image>
+          <image class="comment" src="/image/chat.png"></image>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="log-body {{_indexTitle!=3?'none':''}}" data-bodyIndex='3'>
+    <view class="message">
+      <view class="message-author">
+        <image src="/image/icecream-01.png"></image>
+        <text>刘翾</text>
+      </view>
+      <view class="message-info">
+        <text>这里是精选</text>
+      </view>
+      <view class="tips">
+        <view class="split"></view>
+        <view class="lookNum">
+          <text class="likeNum">{{likeNum}}喜欢</text>
+          <text class="commentNum">0评论</text>
+        </view>
+        <view class="message-icon">
+          <image class="like" src="{{likeUrl}}" bindtap="likeClick"></image>
+          <image class="comment" src="/image/chat.png"></image>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="write">
+    <image src="/image/pencil.png" bindtap="writeArticl"></image>
+  </view>
+</view>

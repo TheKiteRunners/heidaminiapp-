@@ -1,0 +1,39 @@
+{
+  "pages":[
+    "pages/my/my",
+    "pages/logs/logs",
+    "pages/writeArticl/writeArticl",
+    "pages/index/index",
+    "pages/contentArticle/contentArticle"
+  ],
+
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#0cb3f7",
+    "navigationBarTitleText": "黑大",
+    "navigationBarTextStyle":"white",
+    "enablePullDownRefresh":true,
+    "backgroundColor": "#fcfcfc"
+  },
+  "tabBar":{
+     "backgroundColor": "#ffffff",
+     "color" : "#aecee5",
+     "selectedColor": "#0cb3f7",
+     "list":[{
+         "pagePath" : "pages/index/index",
+         "text" : "精选",
+         "iconPath" : "image/home.png",
+         "selectedIconPath":"image/homeing.png"
+     },{
+         "pagePath": "pages/logs/logs",
+         "text": "周边",
+         "iconPath": "image/list.png",
+         "selectedIconPath": "image/listing.png"
+     },{
+         "pagePath": "pages/my/my",
+         "text": "我的",
+         "iconPath": "image/my.png",
+         "selectedIconPath": "image/mying.png"
+      }]
+  }
+}

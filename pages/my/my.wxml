@@ -1,0 +1,24 @@
+<!--pages/my/my.wxml-->
+<view class="container">
+  <view  bindtap="bindViewTap" class="userinfo">
+    <image class="userinfo-avatar" src="{{avatarUrl}}" background-size="cover"></image>
+    <text class="userinfo-nickname">{{nickName}}</text>
+  </view>
+   <!--<view class="app">
+      <block wx:for="{{imgFuc}}">
+         <view class="func" data-index="{{index}}"><image src="{{item}}"></image><text></text></view>
+      </block>
+    </view>-->
+    <view class="list">
+      <view class="usermotto">
+         <text class="user-motto">{{motto}}</text>
+         <text>></text>
+      </view>
+      <view class="split"></view>
+      <view class="usermotto">
+         <text class="user-motto">我的积分</text>
+         <text>></text>
+      </view>
+    </view>
+</view>
+

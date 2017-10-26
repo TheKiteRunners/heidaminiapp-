@@ -1,0 +1,26 @@
+<!--pages/writeArticl/writeArticl.wxml-->
+<view class="container">
+   <view class="write-info">
+      <!--最大输入限制140-->
+      <textarea placeholder="写的什么吧..." placeholder-style="color:#bfbfbf " auto-focus="true" bindinput="inputNum"/>
+      <view class="tools">
+         <view class="hide-name">
+            <label for="hide">匿名
+               <switch type="checkbox" id="hide" bindchange="switchChange" />
+            </label>
+         </view>
+         <view class="max-font">{{maxFont}}</view>
+      </view>
+   </view>
+   <view class="write-image">
+      <view class="action-photos">
+         <block wx:for="{{picUrls}}" wx:key="{{item}}">
+            <image src="{{item}}">
+               <icon type="clear" color="black" size="18" class="del" bindtap="delete" data-index="{{index}}"/>
+            </image>
+         </block>
+         <text class="add" bindtap="bindPhoto">{{actionText}}</text>
+      </view>
+   </view>
+   <button class="submit" type="primary" bindtap="submit">提交</button>
+</view>

@@ -1,0 +1,138 @@
+/* pages/logs/logs.wxss */
+.container{
+   width: 100%;
+   height: 100%;
+   background-color: #f2f2f2;
+}
+.container:after{
+   content: "没有了....";
+   display: block;
+   width: 100%;
+   height: 50rpx;
+   font-size: 15px;
+   background: #f2f2f2;
+   color: #bfbfbf;
+   text-align: center;
+}
+.split{
+   background-color: #f2f2f2;
+   width: 100%;
+   height: 2rpx;
+   margin-bottom: 10rpx;
+}
+.none{
+   display: none;
+}
+
+
+/*标题栏*/
+.log-head{
+   background: #ffffff;
+   display: flex;
+   justify-content: space-around;
+}
+.log-head view{
+   width: 100rpx;
+   height: 100rpx;
+   line-height: 100rpx;
+   font-size: 18px;
+   text-align: center;
+}
+.cur{
+   color: #0cb3f7;
+}
+.cur::after{
+   width: 100%;
+   height: 2rpx;
+   background-color: #0cb3f7;
+   display: block;
+   content: "";
+}
+
+/*信息栏*/
+.log-body{
+   margin: 20rpx 20rpx;
+}
+.message{
+   position: relative;
+   margin-bottom: 10rpx;
+   padding: 20rpx;
+   /*height: 400rpx;*/
+   background: #ffffff;
+   border-radius: 5%;
+}
+
+/*信息栏上部作者*/
+.message-author image{
+   width: 100rpx;
+   height: 100rpx;
+   border-radius: 50%;   
+   box-shadow:0 0 20rpx rgba(0,0,0,.2);
+   vertical-align: middle;
+   margin-right: 20rpx;
+   margin-bottom: 20rpx;
+}
+.message-author text{
+   line-height: 100rpx;
+}
+
+/*信息栏中部信息*/
+.message-info{
+   padding: 20rpx 20rpx;
+   word-wrap: break-word;
+}
+
+
+
+/*信息栏底部tips*/
+.tips{
+   position: relative;
+   bottom: 0;
+   left: 0;
+   padding: 10rpx 20rpx;
+   width: 650rpx;
+   height: 75rpx;
+}
+.lookNum{
+   float: left;
+   display: inline-block;
+}
+.message-icon{
+   float: right;
+   display: inline-block;
+}
+.lookNum text{
+   line-height: 75rpx;
+}
+.likeNum{
+   margin-right: 20rpx;
+}
+.like{
+   width: 75rpx;
+   height: 75rpx;
+   border-radius: 50%;
+   margin-right: 20rpx;
+}
+.comment{
+   width: 75rpx;
+   height: 75rpx;
+   border-radius: 50%;   
+}
+
+/*写文章*/
+.write{
+   position: fixed;
+   display: inline-block;
+   bottom: 0;
+   right: 0;
+   margin: 20rpx;
+   border-radius: 50%;
+   background: yellowgreen;
+}
+.write image{
+   width: 75rpx;
+   height: 75rpx;
+   border-radius: 50%;
+   transform: rotate(-40deg);
+   box-shadow:0 0 20rpx rgba(0,0,0,.2);
+}
