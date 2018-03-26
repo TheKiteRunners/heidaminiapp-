@@ -1,2 +1,4 @@
 <!--pages/contentArticle/contentArticle.wxml-->
-<text>pages/contentArticle/contentArticle.wxml</text>
+<view class="container">
+  
+</view>

@@ -16,27 +16,46 @@ Page({
     article: [],//记录所有文章信息
     totalIndex: 0,
   },
-  likeClick: function () {
-    if (!this.data.likeFlag) {
-      this.setData({
-        likeUrl: "/image/heart1.png",
-        likeNum: this.data.likeNum + 1,
-        likeFlag: 1
-      })
-    } else {
-      this.setData({
-        likeUrl: "/image/heart.png",
-        likeNum: this.data.likeNum - 1,
-        likeFlag: 0
-      })
-    }
-  },
+
+  likeClick: function (res) {
+    const target = res.target.dataset.index;
+    const article = this.data.article;
+    console.log('点赞', article[target])
+    wx.request({
+      url: 'https://www.liuxuan.shop/heida/like.do',
+      method: 'GET',
+      data: {
+        userid: wx.getStorageSync('userId'),
+        articleid: article[target].articleid
+      },
+    })
+  }, // 点赞
+
   writeArticl: function () {
     wx.navigateTo({
       url: '../writeArticl/writeArticl',
     })
-  },
-  titleClick: function (res) {//切换顶部样式
+  }, // 写文章
+
+  sendComment: function (res) {
+    const target = res.target.dataset.index;
+    const article = this.data.article;
+    console.log('发表评论', article[target])
+    wx.navigateTo({
+      url: '../contentArticle/contentArticle?send=1',
+    })
+  }, // 发评论
+
+  seeDetails: function(res) {
+    const target = res.target.dataset.index;
+    const article = this.data.article;
+    console.log('看文章', article[target])
+    wx.navigateTo({
+      url: '../contentArticle/contentArticle?',
+    })
+  }, // 看文章
+
+  titleClick: function (res) {
     this.setData({
       _indexTitle: res.target.dataset.index
     })
@@ -47,17 +66,27 @@ Page({
       case '2':
 
         break;
-      case '3':
-
-        break;
     }
-  },
+  }, // 切换顶部样式
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    //console.log('load');
-    //wx.startPullDownRefresh();
+    // console.log('log-load'); 
+    wx.request({
+      url: 'https://www.liuxuan.shop/heida/getinita.do',
+      method: 'GET',
+      data: {
+        userid: wx.getStorageSync('userId')
+      },
+      success: (res) => {
+        console.log(res)
+        this.setData({
+          article: Array.isArray(res.data) ? res.data : [],
+        })
+      }
+    })
+
   },
 
   /**
@@ -93,61 +122,22 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
+    console.log('pull');
     wx.request({
-      url: 'https://liuxuan.shop/geta',
+      url: 'https://www.liuxuan.shop/heida/getinita.do',
       method: 'GET',
       data: {
-        index: this.data.totalIndex,
+        userid: wx.getStorageSync('userId')
       },
       success: (res) => {
-        console.log(res.data);
-        let message = res.data;
-        let article = this.data.article;
-
-        if(res.data.length < 5 || wx.getStorageSync('articleLack') == 4) {
-          let aIndex = wx.getStorageSync('articleLack');
-          if(aIndex == 4) {
-            if(res.data.length == 5) {
-              wx.setStorage({
-                key: 'articleLack',
-                data: 0,
-              })
-              article.splice(0, parseInt(aIndex));
-              for (let i in message) {
-                article.unshift(message[i]);
-              }
-              this.setData({
-                article: article,
-                totalIndex: this.data.totalIndex + 5,
-              })
-            }
-          }else {
-            wx.setStorage({
-              key: 'articleLack',
-              data: res.data.length,
-            })
-            article.splice(0, parseInt(aIndex));
-            for (let i in message) {
-              article.unshift(message[i]);
-            }
-            this.setData({
-              article: article,
-            })
-          }
-        } else {
-          wx.setStorage({
-            key: 'articleLack',
-            data: 0,
-          })
-          for (let i in message) {
-            article.unshift(message[i]);
-          }
-          this.setData({
-            article: article,
-            totalIndex: this.data.totalIndex + 5,
-          })
-        }
-        
+        this.setData({
+          article: Array.isArray(res.data) ? res.data : [],
+        })
+      },
+      fail: ()=>{
+        console.log('fail');
+      },
+      complete: (res) => {
         wx.stopPullDownRefresh();
       }
     })
@@ -157,7 +147,19 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+    wx.request({
+      url: 'https://www.liuxuan.shop/heida/getra.do',
+      method: 'GET',
+      data: {
+        articleid: this.data.article[this.data.article.length-1].articleid,
+        userid: wx.getStorageSync('userId')
+      },
+      success: (res) => {
+        this.setData({
+          article: this.data.article.concat(res.data),
+        })
+      },
+    })
   },
 
   /**

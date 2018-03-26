@@ -1,14 +1,13 @@
 {
   "pages":[
     "pages/my/my",
+    "pages/contentArticle/contentArticle",
     "pages/logs/logs",
-    "pages/writeArticl/writeArticl",
-    "pages/index/index",
-    "pages/contentArticle/contentArticle"
+    "pages/writeArticl/writeArticl"
   ],
 
   "window":{
-    "backgroundTextStyle":"light",
+    "backgroundTextStyle":"dark",
     "navigationBarBackgroundColor": "#0cb3f7",
     "navigationBarTitleText": "黑大",
     "navigationBarTextStyle":"white",
@@ -20,11 +19,6 @@
      "color" : "#aecee5",
      "selectedColor": "#0cb3f7",
      "list":[{
-         "pagePath" : "pages/index/index",
-         "text" : "精选",
-         "iconPath" : "image/home.png",
-         "selectedIconPath":"image/homeing.png"
-     },{
          "pagePath": "pages/logs/logs",
          "text": "周边",
          "iconPath": "image/list.png",

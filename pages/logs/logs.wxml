@@ -2,15 +2,16 @@
 <view class="container">
   <view class="log-head" bindtap="titleClick">
     <view class="{{_indexTitle==1?'cur':''}}" data-index="1">树洞</view>
-    <view class="{{_indexTitle==2?'cur':''}}" data-index="2">发现</view>
-    <view class="{{_indexTitle==3?'cur':''}}" data-index="3">精选</view>
+    <view class="{{_indexTitle==2?'cur':''}}" data-index="2">精选</view>
   </view>
   <view class="log-body {{_indexTitle!=1?'none':''}}" data-bodyIndex='1'>
+    <!-- 循环生成文章列表  -->
     <block wx:for="{{article}}" wx:key='articleid'>
-      <view class='message' data-index='{{index}}'>
+      <view class='message' data-index='{{index}}' catchtap='seeDetails'>
         <view class='message-author'>
-          <image src="{{item.headimg}}"></image>
+          <image class='headimg' src="{{item.headimg}}" />
           <text>{{item.nickname}}</text>
+          <image class='delete_img' data-index='{{index}}' src="/image/delete.png" />
         </view>
         <view class="message-info">
           <text>{{item.contents}}</text>
@@ -18,61 +19,18 @@
         <view class="tips">
           <view class="split"></view>
           <view class="lookNum">
-            <text class="likeNum">0喜欢</text>
+            <text class="likeNum">{{item.likednum}}喜欢</text>
             <text class="commentNum">0评论</text>
           </view>
           <view class="message-icon">
-            <image class="like" src="{{likeUrl}}" bindtap="likeClick"></image>
-            <image class="comment" src="/image/chat.png"></image>
+            <image class="like" src="{{likeUrl}}" catchtap="likeClick" data-index='{{index}}'></image>
+            <image class="comment" src="/image/chat.png" catchtap='sendComment' data-index='{{index}}'></image>
           </view>
         </view>
       </view>
     </block>
-    
-    <!-- <view class="message">
-      <view class="message-author">
-        <image src="/image/icecream-01.png"></image>
-        <text>刘翾</text>
-      </view>
-      <view class="message-info">
-        <text>卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居卡视角两地分居</text>
-      </view>
-      <view class="tips">
-        <view class="split"></view>
-        <view class="lookNum">
-          <text class="likeNum">{{likeNum}}喜欢</text>
-          <text class="commentNum">0评论</text>
-        </view>
-        <view class="message-icon">
-          <image class="like" src="{{likeUrl}}" bindtap="likeClick"></image>
-          <image class="comment" src="/image/chat.png"></image>
-        </view>
-      </view>
-    </view> -->
   </view>
   <view class="log-body {{_indexTitle!=2?'none':''}}" data-bodyIndex='2'>
-    <view class="message">
-      <view class="message-author">
-        <image src="/image/icecream-01.png"></image>
-        <text>刘翾</text>
-      </view>
-      <view class="message-info">
-        <text>这里是发现</text>
-      </view>
-      <view class="tips">
-        <view class="split"></view>
-        <view class="lookNum">
-          <text class="likeNum">{{likeNum}}喜欢</text>
-          <text class="commentNum">0评论</text>
-        </view>
-        <view class="message-icon">
-          <image class="like" src="{{likeUrl}}" bindtap="likeClick"></image>
-          <image class="comment" src="/image/chat.png"></image>
-        </view>
-      </view>
-    </view>
-  </view>
-  <view class="log-body {{_indexTitle!=3?'none':''}}" data-bodyIndex='3'>
     <view class="message">
       <view class="message-author">
         <image src="/image/icecream-01.png"></image>

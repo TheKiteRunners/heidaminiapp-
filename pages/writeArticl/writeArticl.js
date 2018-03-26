@@ -77,20 +77,18 @@ Page({
      for(let i = 0; i < length; i++){
         urls += this.data.picUrls[i]+'_';
      }
-    let userid = wx.getStorageSync('userid');
-    let nickname = wx.getStorageSync('nickName');
-    let headimg = wx.getStorageSync('avatarUrl');
-    let times = new Date().getFullYear() + '/' + (new Date().getMonth()+1) + '/' + new Date().getDate(); 
+    const userid = wx.getStorageSync('userId');
+    const nickname = wx.getStorageSync('nickName');
+    const headimg = wx.getStorageSync('avatarUrl');
     wx.request({
-      url: 'https://liuxuan.shop/inserta',
+      url: 'https://www.liuxuan.shop/heida/inserta.do',
       method: 'POST',
       data: {
         contents: this.data.article,
         userid: userid,
         nickname: nickname,
         headimg: headimg,
-        times: times,
-        anonymous: this.data.anonymous
+        anonymous: this.data.anonymous // 0匿名，1不匿名
       },
       success: function(res) {
         wx.showToast({
@@ -101,9 +99,8 @@ Page({
         })
       }
     })
-     wx.switchTab({
-        url: '../logs/logs',
-     })
+    wx.navigateBack()
+
       // wx.navigateBack({
       //    delta: '1?art=' + this.data.article + '&img=' + urls + '&userImg=' + this.data.userInfo.avatarUrl + '&userName=' + this.data.userInfo.nickName
       // })

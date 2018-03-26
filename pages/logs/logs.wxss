@@ -63,18 +63,33 @@
 }
 
 /*信息栏上部作者*/
-.message-author image{
+.message-author {
+  margin-bottom:20rpx;
+}
+.message-author .headimg{
    width: 100rpx;
    height: 100rpx;
    border-radius: 50%;   
    box-shadow:0 0 20rpx rgba(0,0,0,.2);
    vertical-align: middle;
    margin-right: 20rpx;
-   margin-bottom: 20rpx;
 }
 .message-author text{
    line-height: 100rpx;
 }
+.message-author .delete_img {
+  width: 32rpx;
+  height: 32rpx;
+  padding: 34rpx;
+  float: right;
+}
+
+.message-author .delete_img::after {
+  clear: both;
+  content: '';
+  display: block;
+}
+
 
 /*信息栏中部信息*/
 .message-info{

@@ -1,5 +1,4 @@
 // pages/my/my.js
-var app = getApp()
 Page({
   /**
    * 页面的初始数据
@@ -21,15 +20,49 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var that = this;
-    //调用应用实例的方法获取全局数据
-    app.getUserInfo();
-    setTimeout(()=>{
-      that.setData({
-        avatarUrl: wx.getStorageSync('avatarUrl'),
-        nickName: wx.getStorageSync('nickName'),
-      })
-    }, 1000)
+    wx.getStorage({
+      key: 'userid',
+      success: function (res) {
+      },
+      fail:  () => {
+        //调用登录接口
+        wx.login({
+          success: (resLogin) => {
+            wx.getUserInfo({
+              success: (res) => {
+                wx.setStorage({
+                  key: 'avatarUrl',
+                  data: res.userInfo.avatarUrl,
+                })
+                wx.setStorage({
+                  key: 'nickName',
+                  data: res.userInfo.nickName,
+                })
+                this.setData({
+                  avatarUrl: res.userInfo.avatarUrl,
+                  nickName: res.userInfo.nickName,
+                })
+                wx.request({
+                  url: "https://www.liuxuan.shop/heida/signin.do",
+                  data: {
+                    code: resLogin.code,
+                    nickname: res.userInfo.nickName,
+                    headimg: encodeURIComponent(res.userInfo.avatarUrl),
+                  },
+                  method: 'GET',
+                  success: function (res) {
+                    wx.setStorage({
+                      key: 'userId',
+                      data: res.data.userid,
+                    })
+                  },
+                })
+              }
+            })
+          }
+        })
+      }
+    })
   },
 
   /**
