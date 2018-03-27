@@ -1,32 +1,32 @@
 // pages/logs/logs.js
+import formatTime from '../../utils/util'
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    likeUrl: "/image/heart.png",
-    likeFlag: 0,
-    likeNum: 0,
-    picUrls: [],
-    userImg: "",
-    userNickName: "",
-    hideName: false,
+    unLikeUrl: "/image/heart.png",
+    likeUrl: "/image/heart1.png",
     _indexTitle: 1,//switch 顶部
     article: [],//记录所有文章信息
-    totalIndex: 0,
   },
 
   likeClick: function (res) {
     const target = res.target.dataset.index;
-    const article = this.data.article;
-    console.log('点赞', article[target])
+    let article = this.data.article;
+    article[target].likeflag === 1 ? article[target].likeflag = 0 : article[target].likeflag = 1
+    article[target].likeflag === 1 ? article[target].likednum++ : article[target].likednum--
+    this.setData({
+      article: article,
+    });
+    console.log('点赞', article[target].articleid);
     wx.request({
-      url: 'https://www.liuxuan.shop/heida/like.do',
+      url: article[target].likeflag === 1 ? 'https://www.liuxuan.shop/heida/like.do' : 'https://www.liuxuan.shop/heida/unlike.do',
       method: 'GET',
       data: {
         userid: wx.getStorageSync('userId'),
-        articleid: article[target].articleid
+        articleid: article[target].articleid,
       },
     })
   }, // 点赞
@@ -37,21 +37,51 @@ Page({
     })
   }, // 写文章
 
+  deleteArticle: function(res) {
+    const target = res.target.dataset.index;
+    let article = this.data.article;
+    const deleteEssay = article.splice(target, 1)
+    this.setData({
+      article: article,
+    })
+    wx.request({
+      url: 'https://www.liuxuan.shop/heida/deletearticle.do',
+      method: 'GET',
+      data: {
+        articleid: deleteEssay[0].articleid
+      },
+      success: () => {
+        wx.showToast({
+          title: '删除成功',
+          icon: 'success',
+          duration: 2000,
+          mask: true,
+        })
+      },
+      fail: () => {
+        wx.showToast({
+          title: '删除失败',
+          icon: 'none',
+          duration: 2000,
+          mask: true,
+        })
+      }
+    })
+  }, // 删除文章
+
   sendComment: function (res) {
     const target = res.target.dataset.index;
-    const article = this.data.article;
-    console.log('发表评论', article[target])
+    console.log('发表评论')
     wx.navigateTo({
-      url: '../contentArticle/contentArticle?send=1',
+      url: '../contentArticle/contentArticle?send=1&target=${target}',
     })
   }, // 发评论
 
   seeDetails: function(res) {
-    const target = res.target.dataset.index;
-    const article = this.data.article;
-    console.log('看文章', article[target])
+    const target = res.currentTarget .dataset.index;
+    console.log('看文章')
     wx.navigateTo({
-      url: '../contentArticle/contentArticle?',
+      url: `../contentArticle/contentArticle?target=${target}`,
     })
   }, // 看文章
 
@@ -72,21 +102,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // console.log('log-load'); 
-    wx.request({
-      url: 'https://www.liuxuan.shop/heida/getinita.do',
-      method: 'GET',
-      data: {
-        userid: wx.getStorageSync('userId')
-      },
-      success: (res) => {
-        console.log(res)
-        this.setData({
-          article: Array.isArray(res.data) ? res.data : [],
-        })
-      }
-    })
-
+    // console.log('log-load');
   },
 
   /**
@@ -122,7 +138,6 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    console.log('pull');
     wx.request({
       url: 'https://www.liuxuan.shop/heida/getinita.do',
       method: 'GET',
@@ -130,8 +145,18 @@ Page({
         userid: wx.getStorageSync('userId')
       },
       success: (res) => {
+        console.log('pull', res)
+        res.data = Array.isArray(res.data) ? res.data : [];
+        const article = res.data.map((item) => {
+          item.times = formatTime(item.times)
+          return item
+        })
         this.setData({
-          article: Array.isArray(res.data) ? res.data : [],
+          article: article,
+        })
+        wx.setStorage({
+          key: 'article',
+          data: article,
         })
       },
       fail: ()=>{
@@ -155,8 +180,18 @@ Page({
         userid: wx.getStorageSync('userId')
       },
       success: (res) => {
+        console.log('bottom', res);
+        res.data = Array.isArray(res.data) ? res.data : [];
+        const article = res.data.map((item) => {
+          item.times = formatTime(item.times)
+          return item
+        })
         this.setData({
-          article: this.data.article.concat(res.data),
+          article: this.data.article.concat(article),
+        })
+        wx.setStorage({
+          key: 'article',
+          data: this.data.article,
         })
       },
     })

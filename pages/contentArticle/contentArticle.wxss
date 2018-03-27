@@ -1,5 +1,4 @@
 /* pages/contentArticle/contentArticle.wxss */
 .container {
   background-color: #ffffff;
-  
 }

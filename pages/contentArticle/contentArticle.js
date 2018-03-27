@@ -5,17 +5,26 @@ Page({
    * 页面的初始数据
    */
   data: {
-  
+    nickname: '',
+    headimg: '',
+    contents: '',
+    articleid: '',
+    anonymous: '',
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.setNavigationBarTitle({
-      title: '文章详情1',
+    // console.log('load', options)
+    const { nickname, headimg, contents, articleid, anonymous} = options
+    this.setData({
+      nickname: nickname,
+      headimg: headimg,
+      contents: decodeURIComponent(contents),
+      articleid: articleid,
+      anonymous: anonymous
     })
-    console.log(options)
   },
 
   /**

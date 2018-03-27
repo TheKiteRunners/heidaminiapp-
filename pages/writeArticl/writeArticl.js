@@ -82,7 +82,7 @@ Page({
     const headimg = wx.getStorageSync('avatarUrl');
     wx.request({
       url: 'https://www.liuxuan.shop/heida/inserta.do',
-      method: 'POST',
+      method: 'GET',
       data: {
         contents: this.data.article,
         userid: userid,

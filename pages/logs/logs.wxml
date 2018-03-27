@@ -10,8 +10,9 @@
       <view class='message' data-index='{{index}}' catchtap='seeDetails'>
         <view class='message-author'>
           <image class='headimg' src="{{item.headimg}}" />
-          <text>{{item.nickname}}</text>
-          <image class='delete_img' data-index='{{index}}' src="/image/delete.png" />
+          <text class='nickname'>{{item.nickname}}</text>
+          <text class='times'>{{item.times}}</text>
+          <image wx:if="{{item.delflag === 1}}" class='delete_img' data-index='{{index}}' src="/image/delete.png" catchtap='deleteArticle' />
         </view>
         <view class="message-info">
           <text>{{item.contents}}</text>
@@ -23,7 +24,7 @@
             <text class="commentNum">0评论</text>
           </view>
           <view class="message-icon">
-            <image class="like" src="{{likeUrl}}" catchtap="likeClick" data-index='{{index}}'></image>
+            <image class="like" src="{{item.likeflag === 1 ? likeUrl : unLikeUrl}}" catchtap="likeClick" data-index='{{index}}'></image>
             <image class="comment" src="/image/chat.png" catchtap='sendComment' data-index='{{index}}'></image>
           </view>
         </view>
@@ -33,7 +34,7 @@
   <view class="log-body {{_indexTitle!=2?'none':''}}" data-bodyIndex='2'>
     <view class="message">
       <view class="message-author">
-        <image src="/image/icecream-01.png"></image>
+        <image class='headimg' src="/image/icecream-01.png"></image>
         <text>刘翾</text>
       </view>
       <view class="message-info">

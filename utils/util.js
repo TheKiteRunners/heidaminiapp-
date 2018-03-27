@@ -1,4 +1,5 @@
-function formatTime(date) {
+function formatTime(times) {
+  var date = new Date(times);
   var year = date.getFullYear()
   var month = date.getMonth() + 1
   var day = date.getDate()
@@ -16,6 +17,4 @@ function formatNumber(n) {
   return n[1] ? n : '0' + n
 }
 
-module.exports = {
-  formatTime: formatTime
-}
+export default formatTime
