@@ -21,7 +21,7 @@
           <view class="split"></view>
           <view class="lookNum">
             <text class="likeNum">{{item.likednum}}喜欢</text>
-            <text class="commentNum">0评论</text>
+            <text class="commentNum">{{item.commnum}}评论</text>
           </view>
           <view class="message-icon">
             <image class="like" src="{{item.likeflag === 1 ? likeUrl : unLikeUrl}}" catchtap="likeClick" data-index='{{index}}'></image>
@@ -54,6 +54,6 @@
     </view>
   </view>
   <view class="write">
-    <image src="/image/pencil.png" bindtap="writeArticl"></image>
+    <image src="/image/pencil.png" catchtap="writeArticl"></image>
   </view>
 </view>

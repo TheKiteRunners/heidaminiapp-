@@ -94,16 +94,12 @@ Page({
         wx.showToast({
           title: '成功发表',
           icon: 'success',
-          duration: 2000,
+          duration: 1000,
           mask: true,
         })
       }
     })
     wx.navigateBack()
-
-      // wx.navigateBack({
-      //    delta: '1?art=' + this.data.article + '&img=' + urls + '&userImg=' + this.data.userInfo.avatarUrl + '&userName=' + this.data.userInfo.nickName
-      // })
   },
   /**
    * 生命周期函数--监听页面加载

@@ -54,15 +54,19 @@ Page({
         wx.showToast({
           title: '删除成功',
           icon: 'success',
-          duration: 2000,
+          duration: 1000,
           mask: true,
+        })
+        wx.setStorage({
+          key: 'article',
+          data: this.data.article,
         })
       },
       fail: () => {
         wx.showToast({
           title: '删除失败',
           icon: 'none',
-          duration: 2000,
+          duration: 1000,
           mask: true,
         })
       }
@@ -73,7 +77,7 @@ Page({
     const target = res.target.dataset.index;
     console.log('发表评论')
     wx.navigateTo({
-      url: '../contentArticle/contentArticle?send=1&target=${target}',
+      url: `../contentArticle/contentArticle?send=1&target=${target}`,
     })
   }, // 发评论
 

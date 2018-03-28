@@ -1,4 +1,46 @@
 <!--pages/contentArticle/contentArticle.wxml-->
 <view class="container">
-  
+  <view class='message-wrapper'>
+    <view class='message'>
+      <view class='message-author'>
+        <image class='headimg' src="{{headimg}}" />
+        <text class='nickname'>{{nickname}}</text>
+        <text class='times'>{{times}}</text>
+        <image wx:if="{{delflag === 1}}" class='delete_img' src="/image/delete.png" catchtap='deleteArticle' />
+      </view>
+      <view class="message-info">
+        <text>{{contents}}</text>
+      </view>
+      <view class="tips">
+        <view class="split"></view>
+        <view class="lookNum">
+          <text class="likeNum">{{likednum}}喜欢</text>
+          <text class="commentNum">{{commnum}}评论</text>
+        </view>
+        <view class="message-icon">
+          <image class="like" src="{{likeflag === 1 ? likeUrl : unLikeUrl}}" catchtap="likeClick" />
+          <image class="comment" src="/image/chat.png" catchtap='sendComment' />
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="comments">
+    <view class='no-comments'>
+      <image src='/image/comment.png' />
+      <text>暂时没有评论哦, 给我留言吧</text>
+    </view>
+  </view>
+  <view class='input-wrapper'>
+    <textarea 
+      placeholder="这里是发言区, 写的什么吧..." 
+      placeholder-class='textarea-placeholder'
+      cursor-spacing='30'
+      maxlength='100'
+      bindinput='inputComments'
+      value='{{commentContents}}'
+      focus='{{autofocus}}'
+    ></textarea>
+    <button class='send' bindtap='send'>发送</button>
+  </view>
 </view>
