@@ -21,8 +21,12 @@ Page({
    */
   onLoad: function (options) {
     wx.getStorage({
-      key: 'userid',
-      success: function (res) {
+      key: 'userId',
+      success: (res) => {
+        this.setData({
+          avatarUrl: wx.getStorageSync('avatarUrl'),
+          nickName: wx.getStorageSync('nickName'),
+        })
       },
       fail:  () => {
         //调用登录接口

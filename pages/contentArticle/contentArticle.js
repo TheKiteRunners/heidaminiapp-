@@ -1,4 +1,5 @@
 // pages/contentArticle/contentArticle.js
+import formatTime from '../../utils/util'
 Page({
 
   /**
@@ -17,6 +18,8 @@ Page({
     likeflag: 0,
     autofocus: false,
     commentContents: '',
+    commentsList: [],
+    anonymousImg: '',
     unLikeUrl: "/image/heart.png",
     likeUrl: "/image/heart1.png",
   },
@@ -48,6 +51,26 @@ Page({
     wx.navigateBack()
   }, // 删除文章
 
+  deleteComments: function(res) {
+    const { commentsList } = this.data;
+    const target = res.target.dataset.index;
+    wx.request({
+      url: 'https://www.liuxuan.shop/heida/delcomments.do',
+      method: 'GET',
+      data: {
+        commentsid: commentsList[target].commentsid,
+      },
+      success: () => {
+        wx.showToast({
+          title: '删除成功',
+          icon: 'success',
+          duration: 1000,
+        })
+        this.onShow();
+      }
+    })
+  }, // 删除评论
+
   likeClick: function() {
     const flag = this.data.likeflag
     this.setData({
@@ -78,6 +101,7 @@ Page({
 
   send: function() {
     const str = this.data.commentContents
+    const { commnum } = this.data
     this.setData({
       commentContents: '',
     })
@@ -97,6 +121,7 @@ Page({
         })
       }
     })
+    this.onShow();
   }, // 发送评论
 
   /**
@@ -105,7 +130,7 @@ Page({
   onLoad: function (options) {
     // console.log('load', options)
     const article = wx.getStorageSync('article')
-    const { nickname, headimg, contents, articleid, anonymous, times, commnum, delflag, likednum, likeflag } = article[options.target]
+    const { nickname, headimg, contents, articleid, anonymous, times, commnum, delflag, likednum, likeflag, anonymousImg } = article[options.target]
     console.log(options)
     this.setData({
       nickname: nickname,
@@ -118,50 +143,43 @@ Page({
       likednum: likednum,
       delflag: delflag,
       likeflag: likeflag,
+      anonymousImg: anonymousImg,
       autofocus: options.send == '1' ? true : false,
     })
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+    wx.request({
+      url: 'https://www.liuxuan.shop/heida/selcomments.do',
+      method: 'GET',
+      data: {
+        userid: wx.getStorageSync('userId'),
+        articleid: this.data.articleid
+      },
+      success: (res) => {
+        res.data = Array.isArray(res.data) ? res.data : [];
+        const commentsList = res.data.map((item) => {
+          item.times = formatTime(item.times)
+          item.headimg = decodeURIComponent(item.headimg)
+          return item
+        })
+        this.setData({
+          commentsList: commentsList,
+        })
+        console.log('评论', this.data.commentsList)
+      }
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-  
+    this.onShow();
   },
 
   /**

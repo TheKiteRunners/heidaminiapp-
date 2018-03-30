@@ -1,5 +1,7 @@
 // pages/logs/logs.js
 import formatTime from '../../utils/util'
+const app = getApp();
+
 Page({
 
   /**
@@ -37,7 +39,7 @@ Page({
     })
   }, // 写文章
 
-  deleteArticle: function(res) {
+  deleteArticle: function (res) {
     const target = res.target.dataset.index;
     let article = this.data.article;
     const deleteEssay = article.splice(target, 1)
@@ -81,8 +83,8 @@ Page({
     })
   }, // 发评论
 
-  seeDetails: function(res) {
-    const target = res.currentTarget .dataset.index;
+  seeDetails: function (res) {
+    const target = res.currentTarget.dataset.index;
     console.log('看文章')
     wx.navigateTo({
       url: `../contentArticle/contentArticle?target=${target}`,
@@ -107,6 +109,19 @@ Page({
    */
   onLoad: function (options) {
     // console.log('log-load');
+    wx.getStorage({
+      key: 'userId',
+      success: function (res) {
+        if (!res.data) {
+          // 调用登录接口
+          app.getUserInfo()
+        }
+      },
+      fail: () => {
+        // 调用登录接口
+        app.getUserInfo()
+      }
+    })
   },
 
   /**
@@ -153,6 +168,11 @@ Page({
         res.data = Array.isArray(res.data) ? res.data : [];
         const article = res.data.map((item) => {
           item.times = formatTime(item.times)
+          if (item.anonymous === 1) {
+            item.anonymousImg = `/image/anonymous${Math.ceil(Math.random() * 7)}.png`
+          } else {
+            item.anonymousImg = ''
+          }
           return item
         })
         this.setData({
@@ -163,7 +183,7 @@ Page({
           data: article,
         })
       },
-      fail: ()=>{
+      fail: () => {
         console.log('fail');
       },
       complete: (res) => {
@@ -180,7 +200,7 @@ Page({
       url: 'https://www.liuxuan.shop/heida/getra.do',
       method: 'GET',
       data: {
-        articleid: this.data.article[this.data.article.length-1].articleid,
+        articleid: this.data.article[this.data.article.length - 1].articleid,
         userid: wx.getStorageSync('userId')
       },
       success: (res) => {
@@ -188,6 +208,11 @@ Page({
         res.data = Array.isArray(res.data) ? res.data : [];
         const article = res.data.map((item) => {
           item.times = formatTime(item.times)
+          if (item.anonymous === 1) {
+            item.anonymousImg = `/image/anonymous${Math.ceil(Math.random() * 7)}.png`
+          } else {
+            item.anonymousImg = ''
+          }
           return item
         })
         this.setData({

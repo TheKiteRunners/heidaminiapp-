@@ -117,8 +117,11 @@
    height: 64rpx;
 }
 
-/* 底部评论区样式  */
+
+
+/* 中部评论区样式  */
 .comments .no-comments {
+  margin-top: 50rpx;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -139,16 +142,41 @@
   flex: 1;
 }
 
+/* 中部评论区列表样式  */
+
+.comments-list {
+  padding: 20rpx 40rpx;
+  margin-bottom: 100rpx;
+}
+
+.comments-list .list-all {
+  font-size: 32rpx;
+  margin-bottom: 20rpx;
+  color: #515151;
+}
+
+.list-item {
+  margin: 20rpx 0;
+}
+
+.item-contents {
+   padding: 20rpx 20rpx;
+   word-wrap: break-word;
+   color: #2c2c2c;
+}
+
+
 
 /* 底部评论栏  */
 .input-wrapper {
-  position: absolute;
+  position: fixed;
   width: 100%;
   box-shadow: 0 -2px 1px rgba(0,0,0,.1);
   bottom: 0;
   left: 0;
   right: 0;
   height: 100rpx;
+  background: #ffffff;
 }
 
 .input-wrapper textarea {

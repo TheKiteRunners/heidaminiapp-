@@ -16,7 +16,7 @@
   },
   "tabBar":{
      "backgroundColor": "#ffffff",
-     "color" : "#aecee5",
+     "color" : "#999",
      "selectedColor": "#0cb3f7",
      "list":[{
          "pagePath": "pages/logs/logs",

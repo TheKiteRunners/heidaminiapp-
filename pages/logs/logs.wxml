@@ -6,11 +6,11 @@
   </view>
   <view class="log-body {{_indexTitle!=1?'none':''}}" data-bodyIndex='1'>
     <!-- 循环生成文章列表  -->
-    <block wx:for="{{article}}" wx:key='articleid'>
+    <block wx:for="{{article}}" wx:key='{{index}}'>
       <view class='message' data-index='{{index}}' catchtap='seeDetails'>
         <view class='message-author'>
-          <image class='headimg' src="{{item.headimg}}" />
-          <text class='nickname'>{{item.nickname}}</text>
+          <image class='headimg' src="{{item.anonymous === 0 ? item.headimg : item.anonymousImg }}" />
+          <text class='nickname'>{{item.anonymous === 0 ? item.nickname : '匿名' }}</text>
           <text class='times'>{{item.times}}</text>
           <image wx:if="{{item.delflag === 1}}" class='delete_img' data-index='{{index}}' src="/image/delete.png" catchtap='deleteArticle' />
         </view>
