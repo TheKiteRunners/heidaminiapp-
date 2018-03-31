@@ -4,20 +4,20 @@
     <image class="userinfo-avatar" src="{{avatarUrl}}" background-size="cover"></image>
     <text class="userinfo-nickname">{{nickName}}</text>
   </view>
-   <!--<view class="app">
-      <block wx:for="{{imgFuc}}">
-         <view class="func" data-index="{{index}}"><image src="{{item}}"></image><text></text></view>
-      </block>
-    </view>-->
-    <view class="list">
-      <view class="usermotto">
-         <text class="user-motto">{{motto}}</text>
-         <text>></text>
+    <view class="list" bindtap='bindViewTap'>
+      <view class="usermotto" data-type='article'>
+         <text class="user-motto">我的文章</text>
+         <text><text class="color-gray">{{articlesnum}}条</text> ></text>
       </view>
       <view class="split"></view>
-      <view class="usermotto">
-         <text class="user-motto">我的积分</text>
-         <text>></text>
+      <view class="usermotto" data-type='comment'>
+         <text class="user-motto">我的评论</text>
+         <text><text class="color-gray" >{{commnum}}条</text> ></text>
+      </view>
+      <view class="split"></view>
+      <view class="usermotto" data-type='liked'>
+         <text class="user-motto">我的点赞</text>
+         <text><text class="color-gray">{{likednum}}条</text> ></text>
       </view>
     </view>
 </view>

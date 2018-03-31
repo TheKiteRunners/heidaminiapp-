@@ -1,0 +1,34 @@
+<!--pages/logs/logs.wxml-->
+<view class="container {{article.length === 0 ? 'nothing' : ''}}">
+  <view class="log-body"  wx:if="{{article.length !== 0}}">
+    <!-- 循环生成文章列表  -->
+    <block wx:for="{{article}}" wx:key='{{index}}'>
+      <view class='message' data-index='{{index}}' catchtap='seeDetails'>
+        <view class='message-author'>
+          <image class='headimg' src="{{item.anonymous === 0 ? item.headimg : item.anonymousImg }}" />
+          <text class='nickname'>{{item.anonymous === 0 ? item.nickname : '匿名' }}</text>
+          <text class='times'>{{item.times}}</text>
+          <image wx:if="{{item.delflag === 1}}" class='delete_img' data-index='{{index}}' src="/image/delete.png" catchtap='deleteArticle' />
+        </view>
+        <view class="message-info">
+          <text>{{item.contents}}</text>
+        </view>
+        <view class="tips">
+          <view class="split"></view>
+          <view class="lookNum">
+            <text class="likeNum">{{item.likednum}}喜欢</text>
+            <text class="commentNum">{{item.commnum}}评论</text>
+          </view>
+          <view class="message-icon">
+            <image class="like" src="{{item.likeflag === 1 ? likeUrl : unLikeUrl}}" catchtap="likeClick" data-index='{{index}}'></image>
+            <image class="comment" src="/image/chat.png" catchtap='sendComment' data-index='{{index}}'></image>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+  <view class='nothing-body' wx:if="{{article.length === 0}}">
+    <image src='/image/nothing.png'></image>
+    <text>什么都没有哦</text>
+  </view>
+</view>

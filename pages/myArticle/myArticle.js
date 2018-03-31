@@ -1,4 +1,4 @@
-// pages/logs/logs.js
+// pages/myArticle/myArticle
 import formatTime from '../../utils/util'
 const app = getApp();
 
@@ -10,8 +10,8 @@ Page({
   data: {
     unLikeUrl: "/image/heart.png",
     likeUrl: "/image/heart1.png",
-    _indexTitle: 1,//switch 顶部
-    article: [],//记录所有文章信息
+    _indexTitle: 1, // switch 顶部
+    article: [], // 记录所有文章信息
   },
 
   likeClick: function (res) {
@@ -32,12 +32,6 @@ Page({
       },
     })
   }, // 点赞
-
-  writeArticl: function () {
-    wx.navigateTo({
-      url: '../writeArticl/writeArticl',
-    })
-  }, // 写文章
 
   deleteArticle: function (res) {
     const target = res.target.dataset.index;
@@ -81,11 +75,13 @@ Page({
             }
           })
         }
+
       },
       fail: () => {
 
       }
     })
+
   }, // 删除文章
 
   sendComment: function (res) {
@@ -104,24 +100,41 @@ Page({
     })
   }, // 看文章
 
-  titleClick: function (res) {
-    this.setData({
-      _indexTitle: res.target.dataset.index
+  getArticle: function(types) {
+    wx.request({
+      url: 'https://www.liuxuan.shop/heida/',
+      method: 'GET',
+      data: {
+        userid: wx.getStorageSync('userId')
+      },
+      success: (res) => {
+        res.data = Array.isArray(res.data) ? res.data : [];
+        const article = res.data.map((item) => {
+          item.times = formatTime(item.times)
+          if (item.anonymous === 1) {
+            item.anonymousImg = `/image/anonymous${Math.ceil(Math.random() * 7)}.png`
+          } else {
+            item.anonymousImg = ''
+          }
+          return item
+        })
+        this.setData({
+          article: article,
+        })
+      },
+      fail: () => {
+        console.log('fail');
+      },
+      complete: (res) => {
+      }
     })
-    switch (this.data._indexTitle) {
-      case '1':
+  },
 
-        break;
-      case '2':
-
-        break;
-    }
-  }, // 切换顶部样式
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // console.log('log-load');
+    const types = options.type
     wx.getStorage({
       key: 'userId',
       success: function (res) {
@@ -135,6 +148,18 @@ Page({
         app.getUserInfo()
       }
     })
+    switch (types) {
+      case 'article':
+
+        break;
+      case 'comment':
+        break;
+      case 'liked':
+        break;
+      default:
+        break;
+    }
+
   },
 
   /**
@@ -149,7 +174,6 @@ Page({
    */
   onShow: function () {
     //console.log('show');
-    wx.startPullDownRefresh();
   },
 
   /**
@@ -170,73 +194,12 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    wx.request({
-      url: 'https://www.liuxuan.shop/heida/getinita.do',
-      method: 'GET',
-      data: {
-        userid: wx.getStorageSync('userId')
-      },
-      success: (res) => {
-        console.log('pull', res)
-        res.data = Array.isArray(res.data) ? res.data : [];
-        const article = res.data.map((item) => {
-          item.times = formatTime(item.times)
-          if (item.anonymous === 1) {
-            item.anonymousImg = `/image/anonymous${Math.ceil(Math.random() * 7)}.png`
-          } else {
-            item.anonymousImg = ''
-          }
-          return item
-        })
-        this.setData({
-          article: article,
-        })
-        wx.setStorage({
-          key: 'article',
-          data: article,
-        })
-      },
-      fail: () => {
-        console.log('fail');
-      },
-      complete: (res) => {
-        wx.stopPullDownRefresh();
-      }
-    })
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    wx.request({
-      url: 'https://www.liuxuan.shop/heida/getra.do',
-      method: 'GET',
-      data: {
-        articleid: this.data.article[this.data.article.length - 1].articleid,
-        userid: wx.getStorageSync('userId')
-      },
-      success: (res) => {
-        console.log('bottom', res);
-        res.data = Array.isArray(res.data) ? res.data : [];
-        const article = res.data.map((item) => {
-          item.times = formatTime(item.times)
-          if (item.anonymous === 1) {
-            item.anonymousImg = `/image/anonymous${Math.ceil(Math.random() * 7)}.png`
-          } else {
-            item.anonymousImg = ''
-          }
-          return item
-        })
-        this.setData({
-          article: this.data.article.concat(article),
-        })
-        wx.setStorage({
-          key: 'article',
-          data: this.data.article,
-        })
-      },
-    })
   },
 
   /**

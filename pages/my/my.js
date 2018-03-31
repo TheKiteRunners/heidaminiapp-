@@ -4,17 +4,36 @@ Page({
    * 页面的初始数据
    */
   data: {
-    motto: 'Hello World',
     avatarUrl: '',
     nickName: '',
-    imgFuc: [
-      "/image/icecream-01.png",
-      "/image/icecream-04.png",
-      "/image/icecream-03.png"
-    ]
+    articlesnum: 0,
+    commnum: 0,
+    likednum: 0,
   },
-  bindViewTap: function () {
-    //console.log('bindViewTap');
+  bindViewTap: function (res) {
+    const types = res.target.dataset.type;
+    switch (types) {
+      case 'article':
+        console.log('a')
+        wx.navigateTo({
+          url: "../myArticle/myArticle?type=article",
+        })
+      break;
+      case 'comment':
+        wx.navigateTo({
+          url: "../myArticle/myArticle?type=comment",
+        })
+        console.log('c')
+      break;
+      case 'liked':
+        wx.navigateTo({
+          url: "../myArticle/myArticle?type=liked",
+        })
+        console.log('l')
+      break;
+      default: 
+      break;
+    }
   },
   /**
    * 生命周期函数--监听页面加载
@@ -63,6 +82,9 @@ Page({
                 })
               }
             })
+          },
+          fail: () => {
+
           }
         })
       }
@@ -80,7 +102,22 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    wx.request({
+      url: "https://www.liuxuan.shop/heida/Info.do",
+      method: 'GET',
+      data: {
+        userid: wx.getStorageSync('userId')
+      },
+      success: (res) => {
+        console.log(res)
+        const { articlesnum, commnum, likednum } = res.data
+        this.setData({
+          articlesnum: articlesnum,
+          commnum: commnum,
+          likednum: likednum,
+        })
+      }
+    })
   },
 
   /**

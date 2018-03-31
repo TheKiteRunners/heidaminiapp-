@@ -1,0 +1,26 @@
+/* pages/myArticle/myArticle.wxss */
+@import "../logs/logs.wxss";
+
+.nothing::after {
+  display: none;
+}
+
+.nothing-body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.nothing-body image {
+  width: 300rpx;
+  height: 300rpx;
+}
+
+
+.nothing-body text {
+  text-align: center;
+  color: #333333;
+}
