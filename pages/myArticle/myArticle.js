@@ -12,6 +12,7 @@ Page({
     likeUrl: "/image/heart1.png",
     _indexTitle: 1, // switch 顶部
     article: [], // 记录所有文章信息
+    types: '',
   },
 
   likeClick: function (res) {
@@ -51,7 +52,8 @@ Page({
             url: 'https://www.liuxuan.shop/heida/deletearticle.do',
             method: 'GET',
             data: {
-              articleid: deleteEssay[0].articleid
+              articleid: deleteEssay[0].articleid,
+              userid: deleteEssay[0].userid
             },
             success: () => {
               wx.showToast({
@@ -101,8 +103,22 @@ Page({
   }, // 看文章
 
   getArticle: function(types) {
+    let url = '' ;
+    switch (types) {
+      case 'article':
+        url = 'getmyarticlepa';
+        break;
+      case 'comment':
+        url = 'getmycomarticlepa'
+        break;
+      case 'liked':
+        url = 'getmylikearticlepa'
+        break;
+      default:
+        break;
+    }
     wx.request({
-      url: 'https://www.liuxuan.shop/heida/',
+      url: `https://www.liuxuan.shop/heida/${url}.do`,
       method: 'GET',
       data: {
         userid: wx.getStorageSync('userId')
@@ -121,12 +137,14 @@ Page({
         this.setData({
           article: article,
         })
+        wx.setStorage({
+          key: 'article',
+          data: article,
+        })
       },
       fail: () => {
         console.log('fail');
       },
-      complete: (res) => {
-      }
     })
   },
 
@@ -148,25 +166,22 @@ Page({
         app.getUserInfo()
       }
     })
+    this.setData({
+      types: types
+    })
     switch (types) {
       case 'article':
-
+        this.getArticle('article')
         break;
       case 'comment':
+        this.getArticle('comment')
         break;
       case 'liked':
+        this.getArticle('liked')
         break;
       default:
         break;
     }
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-    //console.log('ready');
   },
 
   /**
@@ -176,19 +191,6 @@ Page({
     //console.log('show');
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-    //console.log('Hide');
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-    //console.log('unload')
-  },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
@@ -200,6 +202,49 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
+    const { types } = this.data;
+    let url = '';
+    switch (types) {
+      case 'article':
+        url = 'getmyarticlera';
+        break;
+      case 'comment':
+        url = 'getmycomarticlera'
+        break;
+      case 'liked':
+        url = 'getmylikearticlera'
+        break;
+      default:
+        break;
+    }
+    wx.request({
+      url: `https://www.liuxuan.shop/heida/${url}.do`,
+      method: 'GET',
+      data: {
+        articleid: this.data.article[this.data.article.length - 1].articleid,
+        userid: wx.getStorageSync('userId')
+      },
+      success: (res) => {
+        console.log('bottom', res);
+        res.data = Array.isArray(res.data) ? res.data : [];
+        const article = res.data.map((item) => {
+          item.times = formatTime(item.times)
+          if (item.anonymous === 1) {
+            item.anonymousImg = `/image/anonymous${Math.ceil(Math.random() * 7)}.png`
+          } else {
+            item.anonymousImg = ''
+          }
+          return item
+        })
+        this.setData({
+          article: this.data.article.concat(article),
+        })
+        wx.setStorage({
+          key: 'article',
+          data: this.data.article,
+        })
+      },
+    })
   },
 
   /**

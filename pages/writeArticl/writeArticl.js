@@ -80,6 +80,7 @@ Page({
     const userid = wx.getStorageSync('userId');
     const nickname = wx.getStorageSync('nickName');
     const headimg = wx.getStorageSync('avatarUrl');
+    console.log(111, this.data.article)
     wx.request({
       url: 'https://www.liuxuan.shop/heida/inserta.do',
       method: 'GET',

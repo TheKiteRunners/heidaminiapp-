@@ -57,7 +57,8 @@ Page({
             url: 'https://www.liuxuan.shop/heida/deletearticle.do',
             method: 'GET',
             data: {
-              articleid: deleteEssay[0].articleid
+              articleid: deleteEssay[0].articleid,
+              userid: deleteEssay[0].userid
             },
             success: () => {
               wx.showToast({

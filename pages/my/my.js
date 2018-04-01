@@ -14,7 +14,6 @@ Page({
     const types = res.target.dataset.type;
     switch (types) {
       case 'article':
-        console.log('a')
         wx.navigateTo({
           url: "../myArticle/myArticle?type=article",
         })
@@ -23,13 +22,11 @@ Page({
         wx.navigateTo({
           url: "../myArticle/myArticle?type=comment",
         })
-        console.log('c')
       break;
       case 'liked':
         wx.navigateTo({
           url: "../myArticle/myArticle?type=liked",
         })
-        console.log('l')
       break;
       default: 
       break;
@@ -73,10 +70,26 @@ Page({
                     headimg: encodeURIComponent(res.userInfo.avatarUrl),
                   },
                   method: 'GET',
-                  success: function (res) {
+                  success:  (res) => {
                     wx.setStorage({
                       key: 'userId',
                       data: res.data.userid,
+                    })
+                    wx.request({
+                      url: "https://www.liuxuan.shop/heida/Info.do",
+                      method: 'GET',
+                      data: {
+                        userid: res.data.userid,
+                      },
+                      success: (res) => {
+                        console.log(res)
+                        const { articlesnum, commnum, likednum } = res.data
+                        this.setData({
+                          articlesnum: articlesnum,
+                          commnum: commnum,
+                          likednum: likednum,
+                        })
+                      }
                     })
                   },
                 })

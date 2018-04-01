@@ -59,6 +59,8 @@ Page({
       method: 'GET',
       data: {
         commentsid: commentsList[target].commentsid,
+        articleid: commentsList[target].articleid,
+        userid: commentsList[target].userid
       },
       success: () => {
         wx.showToast({
